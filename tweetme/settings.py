@@ -124,3 +124,4 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = "/login"
 MAX_TWEET_LENGHT = 240
+TWEET_ACTION_OPTIONS = ['like', 'unlike', 'retweet']
