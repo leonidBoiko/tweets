@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'corsheaders',
     'tweets',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -125,3 +127,6 @@ STATIC_URL = '/static/'
 LOGIN_URL = "/login"
 MAX_TWEET_LENGHT = 240
 TWEET_ACTION_OPTIONS = ['like', 'unlike', 'retweet']
+
+CORS_ORIGIN_ALLOW_ALL = True # any website has access to my api 
+CORS_URLS_REGEX = r'^/api/.*$'
