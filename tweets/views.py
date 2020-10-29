@@ -18,10 +18,10 @@ def home_view(request, *args, **kwargs):
     return render(request, 'pages/home.html')
 
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication])
+# @authentication_classes([SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request, *args, **kwargs):
-    serializer = TweetCreateSerializer(data=request.POST)
+    serializer = TweetCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
         return Response(serializer.data, status=201)
@@ -31,6 +31,9 @@ def tweet_create_view(request, *args, **kwargs):
 @api_view(['GET'])
 def tweet_list_view(request, *args, **kwargs):
     qs = Tweet.objects.all()
+    username = request.GET.get("username")
+    if username != None:
+        qs = qs.filter(user__username__iexact=username)
     serializer = TweetSerializer(qs, many=True)
     return Response(serializer.data)
 
@@ -82,6 +85,8 @@ def tweet_action_view(request, *args, **kwargs):
         return Response(serializer.data, status=200)
     elif action == "unlike":
         obj.likes.remove(request.user)
+        serializer = TweetSerializer(obj)
+        return Response(serializer.data, status=200)
     elif action == 'retweet':
         new_tweet = Tweet.objects.create(user=request.user, parent=obj, content=content)
         serializer = TweetSerializer(new_tweet)

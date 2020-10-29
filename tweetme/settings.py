@@ -130,3 +130,36 @@ TWEET_ACTION_OPTIONS = ['like', 'unlike', 'retweet']
 
 CORS_ORIGIN_ALLOW_ALL = True # any website has access to my api 
 CORS_URLS_REGEX = r'^/api/.*$'
+
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = default_headers + ( 'HTTP_X_REQUESTED_WITH','X-CSRFToken', )
+
+
+STATIC_ROOT = BASE_DIR / "static-root"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+DEFAULT_RENDERER_CLASSES = [
+    'rest_framework.renderers.JSONRenderer'
+]
+
+DEFAULT_AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.SessionAuthentication'
+]
+
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer'
+    ]
+    DEFAULT_AUTHENTICATION_CLASSES += [
+        'tweetme.rest_api.dev.DevAuthentication'
+    ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+}
