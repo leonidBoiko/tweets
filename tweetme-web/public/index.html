@@ -20,7 +20,22 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="tweet-container"></div>
     <div id="tweetme-2" data-username="admin" data-can-tweet="false"></div>
 
+    <script>
+      var path = window.location.pathname
+      var idRegex = /(?<tweetid>\d+)/
+      var match = path.match(idRegex)
+      
+      if (match) {
+        var tweetId = match.groups.tweetid
+        var tweet2El = document.getElementById("tweetme-2")
+        tweet2El.className = "d-none"
+        var tweetEl = '<div class="tweetme-2-detail" data-tweet-id="'+ tweetId +'" data-class-name="col-12 mx-auto"></div>'
+        var mainContainer = document.getElementById('tweet-container')
+        mainContainer.innerHTML = tweetEl
+      }
+    </script>
   </body>
 </html>

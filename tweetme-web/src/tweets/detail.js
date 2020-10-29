@@ -18,6 +18,17 @@ export function Tweet(props) {
     const {tweet, didRetweet, hideActions} = props
     const [actionTweet, setActionTweet ] = useState(props.tweet ? props.tweet : null) 
     const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
+    
+    const path = window.location.pathname
+    let idRegex = /(?<tweetid>\d+)/
+    const match = path.match(idRegex)
+    const urlTweetId = match ?  match.groups.tweetid : -1
+    const isDetail = `${tweet.id}` === `${urlTweetId}`
+    
+    const handleLink = (e) => {
+        e.preventDefault()
+        window.location.href = `/${tweet.id}`
+    }
 
     const handlePerfomeAction = (newActionTweet, status) => {
         if (status === 200) {
@@ -34,10 +45,13 @@ export function Tweet(props) {
             <p>{tweet.id} - {tweet.content}</p>
             <ParentTweet parentTweet={tweet.parent}/>
         </div>
-        {(actionTweet && hideActions !== true) && <div className="btn btn-group">
+        <div className="btn btn-group">
+        {(actionTweet && hideActions !== true) && <>
             <ActionBtn tweet={actionTweet} didPerfomeAction={handlePerfomeAction} action={{type: "like", display:"Like"}}/>
             <ActionBtn tweet={actionTweet} didPerfomeAction={handlePerfomeAction} action={{type: "unlike", display:"Unlike"}}/>
             <ActionBtn tweet={actionTweet} didPerfomeAction={handlePerfomeAction} action={{type: "retweet", display:"Retweet"}}/>
-        </div>}
+        </>}
+            {isDetail === true ? null : <button className="btn btn-outline-primary" onClick={handleLink}>View</button>}
+        </div>
     </div>
 }
