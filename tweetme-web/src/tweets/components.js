@@ -16,7 +16,7 @@ export function TweetsConponent(props) {
     console.log(newTweets);
     return (
         <div className={props.className}>
-            {canTweet === true && <TweetCreate didTweet={handleNewTweet} className='col-12 mb-3' />}
+            {canTweet === true && <TweetCreate didTweet={handleNewTweet} className='col-6 mx-auto my-3' />}
             <TweetsList newTweets={newTweets} {...props} />
         </div>
     )

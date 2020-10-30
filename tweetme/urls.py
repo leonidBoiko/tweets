@@ -16,26 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
 from django.conf import settings
 
 from tweets.views import (
-        home_view, 
-        tweet_action_view,
-        tweet_detail_view, 
-        tweet_delete_view,
-        tweet_list_view, 
-        tweet_create_view
+        tweets_list_view,
+        tweets_detail_view, 
+        tweets_profile_view, 
     )
 
 urlpatterns = [
-    path('', home_view),
     path('admin/', admin.site.urls),
-    path('create-tweet/', tweet_create_view),
-    path('react/', TemplateView.as_view(template_name="react_via_dj.html")),
-    path('tweets/', tweet_list_view),
-    path('tweets/<int:tweet_id>/', tweet_detail_view),
-    path('api/tweets/', include('tweets.urls')),
+    path('', tweets_list_view),
+    path('<int:tweet_id>/', tweets_detail_view),
+    path('profile/<str:username>/', tweets_profile_view),
+    path('api/tweets/', include('tweets.api.urls')),
 
 ]
 
