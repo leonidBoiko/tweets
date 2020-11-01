@@ -13,7 +13,6 @@ export function TweetsConponent(props) {
         tempNewTweets.unshift(newTweet)
         setNewtweets(tempNewTweets) 
     }
-    console.log(newTweets);
     return (
         <div className={props.className}>
             {canTweet === true && <TweetCreate didTweet={handleNewTweet} className='col-6 mx-auto my-3' />}
